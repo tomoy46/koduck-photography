@@ -1,0 +1,1 @@
+This project is intentionally plain HTML/CSS/JS so it can be deployed directly to Cloudflare Pages or GitHub Pages.
