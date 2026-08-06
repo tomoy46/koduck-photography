@@ -1,9 +1,9 @@
-name: Unpack website ZIP
+name: Unpack LUMIWING website ZIP
 
 on:
   push:
     paths:
-      - 'koduck-photography-initial.zip'
+      - 'lumiwing-photography.zip'
   workflow_dispatch:
 
 permissions:
@@ -20,9 +20,9 @@ jobs:
         run: |
           rm -rf .site-tmp
           mkdir .site-tmp
-          unzip -q -o koduck-photography-initial.zip -d .site-tmp
-          cp -a .site-tmp/koduck-photography/. ./
-          rm -rf .site-tmp koduck-photography-initial.zip
+          unzip -q -o lumiwing-photography.zip -d .site-tmp
+          cp -a .site-tmp/lumiwing/. ./
+          rm -rf .site-tmp lumiwing-photography.zip
 
       - name: Commit website files
         run: |
@@ -32,6 +32,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Publish Koduck Photography website"
+            git commit -m "Publish LUMIWING website"
             git push
           fi
