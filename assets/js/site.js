@@ -3,7 +3,7 @@
   const menuButton = document.querySelector('.menu-button');
   const nav = document.querySelector('.site-nav');
 
-  // Mobile navigation override. Kept here so the fix applies to every page at once.
+  // Responsive overrides shared by every page.
   const mobileMenuStyle = document.createElement('style');
   mobileMenuStyle.textContent = `
     @media (max-width: 900px) {
@@ -86,6 +86,46 @@
     }
     @media (max-width: 640px) {
       .site-nav { top: 68px !important; }
+
+      /* Reset the tablet grid image height when cards become stacked. */
+      .journal-card {
+        display: block !important;
+        grid-template-columns: none !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      .journal-card > img {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 3 / 2 !important;
+        object-fit: cover !important;
+      }
+      .journal-body {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding: 22px 20px 26px !important;
+      }
+      .journal-card h3 {
+        display: block !important;
+        margin: 10px 0 9px !important;
+        font-size: 21px !important;
+        line-height: 1.5 !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        overflow-wrap: anywhere;
+      }
+      .journal-card p {
+        display: block !important;
+        margin: 0 !important;
+        line-height: 1.75 !important;
+      }
+      .split-image img,
+      .stock-preview img {
+        width: 100% !important;
+        height: auto !important;
+      }
     }
   `;
   document.head.appendChild(mobileMenuStyle);
