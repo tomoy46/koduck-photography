@@ -3,20 +3,119 @@
   const menuButton = document.querySelector('.menu-button');
   const nav = document.querySelector('.site-nav');
 
+  // Mobile navigation override. Kept here so the fix applies to every page at once.
+  const mobileMenuStyle = document.createElement('style');
+  mobileMenuStyle.textContent = `
+    @media (max-width: 900px) {
+      .site-header.menu-active {
+        background: #0b0d0f !important;
+        border-bottom-color: rgba(255,255,255,.12) !important;
+        backdrop-filter: none !important;
+      }
+      .site-nav {
+        position: fixed !important;
+        top: 76px !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        z-index: 999 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        gap: 0 !important;
+        padding: 18px 24px max(28px, env(safe-area-inset-bottom)) !important;
+        overflow-y: auto !important;
+        background: #0b0d0f !important;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+      }
+      .site-nav.open {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        transform: translateY(0) !important;
+      }
+      .site-nav a {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        min-height: 64px !important;
+        padding: 16px 4px !important;
+        border-bottom: 1px solid rgba(255,255,255,.12) !important;
+        color: #f3f4f5 !important;
+        font-size: 17px !important;
+        line-height: 1.25 !important;
+        letter-spacing: .12em !important;
+        background: transparent !important;
+      }
+      .site-nav a:first-child {
+        border-top: 1px solid rgba(255,255,255,.12) !important;
+      }
+      .site-nav a::after { display: none !important; }
+      .site-nav a[aria-current="page"] {
+        color: #f1d8ae !important;
+      }
+      .menu-button {
+        position: relative;
+        z-index: 1001;
+        width: 44px;
+        height: 44px;
+        padding: 8px !important;
+      }
+      .menu-button span {
+        position: absolute;
+        left: 10px;
+        width: 24px;
+        margin: 0 !important;
+        transition: transform .22s ease, top .22s ease;
+      }
+      .menu-button span:first-child { top: 16px; }
+      .menu-button span:last-child { top: 27px; }
+      .menu-button[aria-expanded="true"] span:first-child {
+        top: 21px;
+        transform: rotate(45deg);
+      }
+      .menu-button[aria-expanded="true"] span:last-child {
+        top: 21px;
+        transform: rotate(-45deg);
+      }
+    }
+    @media (max-width: 640px) {
+      .site-nav { top: 68px !important; }
+    }
+  `;
+  document.head.appendChild(mobileMenuStyle);
+
   const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
   updateHeader();
   window.addEventListener('scroll', updateHeader, { passive: true });
 
-  menuButton?.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    document.body.classList.toggle('menu-open', open);
-    menuButton.setAttribute('aria-expanded', String(open));
-  });
-  nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    nav.classList.remove('open');
+  const closeMenu = () => {
+    nav?.classList.remove('open');
+    header?.classList.remove('menu-active');
     document.body.classList.remove('menu-open');
     menuButton?.setAttribute('aria-expanded', 'false');
-  }));
+    menuButton?.setAttribute('aria-label', 'メニューを開く');
+  };
+
+  menuButton?.addEventListener('click', () => {
+    const open = !nav?.classList.contains('open');
+    nav?.classList.toggle('open', open);
+    header?.classList.toggle('menu-active', open);
+    document.body.classList.toggle('menu-open', open);
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+  });
+
+  nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) closeMenu();
+  }, { passive: true });
 
   // Basic deterrence only: browser-delivered images can never be made impossible to capture.
   document.addEventListener('contextmenu', e => {
@@ -66,7 +165,12 @@
   }));
   lightbox?.querySelector('.lightbox-close')?.addEventListener('click', closeLightbox);
   lightbox?.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeMenu();
+      closeLightbox();
+    }
+  });
 
   const form = document.querySelector('[data-contact-form]');
   form?.addEventListener('submit', e => {
