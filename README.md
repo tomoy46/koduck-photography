@@ -1,6 +1,8 @@
-# Koduck Photography
+# LUMIWING
 
-Koduck名義の写真ポートフォリオ初期版です。ビルド処理を使わない静的サイトなので、Cloudflare PagesまたはGitHub Pagesへそのまま公開できます。
+**Photography by Duck**
+
+活動名Duckによる写真ポートフォリオ「LUMIWING」の初期版です。ビルド処理を使わない静的サイトなので、Cloudflare PagesまたはGitHub Pagesへそのまま公開できます。
 
 ## 収録内容
 
@@ -18,7 +20,7 @@ Koduck名義の写真ポートフォリオ初期版です。ビルド処理を�
 2. 独自ドメインまたはCloudflare PagesのURLを決定する
 3. AdSense承認後に広告コードと `ads.txt` を追加する
 4. `privacy.html` を実際に利用する広告・解析・フォームに合わせて最終更新する
-5. PIXTAの表示名を可能であればKoduckへ統一する
+5. PIXTAの表示名を可能であればDuckへ統一する
 
 ## Cloudflare Pagesへの公開
 

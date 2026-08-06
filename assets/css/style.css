@@ -252,7 +252,8 @@ main { overflow:hidden; }
   .site-header { height:68px; }
   .site-nav { inset-top:68px; }
   .header-inner, .hero-content, .section, .page-hero, .split-inner, .footer-inner, .article-wrap { width:min(calc(100% - 28px), var(--max)); }
-  .brand-text small { display:none; }
+  .brand-text strong { font-size:12px; letter-spacing:.18em; }
+  .brand-text small { display:block; font-size:7px; letter-spacing:.12em; margin-top:4px; }
   .hero-media .desktop-hero { display:none; }
   .hero-media .mobile-hero { display:block; object-position:center; }
   .hero::before { background:linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.18) 35%, rgba(8,10,12,.93) 100%); }
